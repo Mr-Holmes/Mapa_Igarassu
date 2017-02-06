@@ -3,6 +3,7 @@ function mapIgarassu() {
 	var mapaIgarassu = new google.maps.Map(document.getElementById("googleMap"), {
 		zoom:16,
 		center: new google.maps.LatLng(-7.834195, -34.906142), 
+		mapTypeId: google.maps.MapTypeId.HYBRID
 	});
 
 	//array dos locais
@@ -12,7 +13,7 @@ function mapIgarassu() {
  		//['Secretária de Turismo', -7.834078, -34.906410],	//2
  		['Empresa de Urbanização de Igarassu(URBI)', -7.834452, -34.905451],	//3										[OK]
  		['Câmara Municipal', -7.835233, -34.906164],	//4																[OK]
- 		//['Ruínas da Igreja da Misericórdia', -7.834078, -34.906410],	//5
+ 		['Ruínas da Igreja da Misericórdia', -7.835773, -34.907213],	//5												[OK]
  		['Casa do Artesão', -7.834902, -34.906872],	//6																	[OK]
  		['Casa do Patrimônio em Igarassu/Iphan(Sobrado do Imperador)', -7.834733, -34.906740],	//7						[OK]
  		['Recolhimento e Igreja do Sagrado Coração de Jesus', -7.834387, -34.906491],	//8								[OK]
@@ -27,7 +28,7 @@ function mapIgarassu() {
  		['Igreja de Nossa Senhora do Livramento', -7.833169, -34.906673],	//17										[OK]									
  		['Centro de Artes e Cultura', -7.832004, -34.908098],	//18													[OK]
  		['Igreja de São Sebastião', -7.831667, -34.908622],	//19														[OK]
- 		//['Secretária de Obras', -7.834078, -34.906410],	//20
+ 		['Secretária de Obras', -7.8316807,-34.9091038],	//20														[OK]
  		];
 
  	var janelaInfo = new google.maps.InfoWindow();
@@ -54,5 +55,36 @@ function mapIgarassu() {
 			}
 		})(marker, i)); //Chamada da Função
 	}
+
+	var info2 = new google.maps.InfoWindow({map: mapaIgarassu});
+
+        // Try HTML5 geolocation.
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+
+            info2.setPosition(pos);
+            info2.setContent('Você está aqui.');
+            mapaIgarassu.setCenter(pos);
+          }, function() {
+            handleLocationError(true, info2, mapaIgarassu.getCenter());
+          });
+         }
+         else {
+          // Browser doesn't support Geolocation
+          handleLocationError(false, info2, map.getCenter());
+        }
+      
+
+      function handleLocationError(browserHasGeolocation, info2, pos) {
+        info2.setPosition(pos);
+        info2.setContent(browserHasGeolocation ?
+                              'Error: The Geolocation service failed.' :
+                              'Error: Your browser doesn\'t support geolocation.');
+      }
+  
 }
 
